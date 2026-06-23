@@ -84,6 +84,7 @@ Toda a documentação está na pasta [`docs/`](docs/):
 | [Os 5 Serviços (MVP)](docs/servicos-mvp.md) | Detalhe de cada serviço |
 | [Fluxo do Usuário](docs/fluxo-usuario.md) | Jornada do onboarding ao bem-estar |
 | [Arquitetura](docs/arquitetura.md) | Componentes, contrato de integração, stack |
+| [Backend (FastAPI)](docs/backend.md) | Implementação da API: estrutura, lógica e decisões |
 | [API / Endpoints](docs/api.md) | `/orientar` e `/saude` — request/response |
 | [Agente de Saúde Mental](docs/saude-mental.md) | Diretrizes de segurança e derivação ao CVV |
 | [Dataset Vísent CDRView](docs/dataset-cdrview.md) | Geolocalização e cobertura de rede |

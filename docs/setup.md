@@ -51,31 +51,28 @@ DEFAULT_LOCALE=pt
 
 ## 3. Instalar dependências e rodar
 
-> Ajuste conforme o stack. Exemplos comuns:
+Neste projeto, o **backend (`api/`) é Python + FastAPI** e o **front-end (`web/`) é
+Node**. Suba os dois separadamente.
 
-### Node.js
+### Backend — Python (FastAPI)
 
-```bash
-# Backend
-cd api && npm install && npm run dev      # API em http://localhost:3000
-
-# Front-end (PWA)
-cd ../web && npm install && npm run dev    # Front em http://localhost:5173
-```
-
-### Python (FastAPI)
+Implementado e funcional (ver [backend.md](backend.md)). Requer **Python 3.12+**
+(o 3.14 ainda não tem wheels de `pydantic-core`).
 
 ```bash
 cd api
-python -m venv .venv && source .venv/bin/activate
+python3.12 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-uvicorn main:app --reload --port 3000
+uvicorn app.main:app --reload --port 3000
 ```
 
-### Java (Spring Boot)
+- Swagger UI: http://localhost:3000/docs
+- Testes: `.venv/bin/python -m pytest -q`
+
+### Front-end — Node (PWA)
 
 ```bash
-cd api && ./mvnw spring-boot:run
+cd web && npm install && npm run dev    # Front em http://localhost:5173
 ```
 
 ## 4. Testar os endpoints

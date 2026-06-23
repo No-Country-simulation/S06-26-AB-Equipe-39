@@ -6,8 +6,16 @@
 # Dependências
 node_modules/
 .venv/
+venv/
 __pycache__/
+*.pyc
 target/
+
+# Python — testes/cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
 
 # Build
 dist/

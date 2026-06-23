@@ -3,6 +3,10 @@
 Contrato de integração da API do App BiT. Defina e congele este contrato no **Dia 1**
 para que front, back e agente trabalhem em paralelo.
 
+> ✅ **Implementado** (Fase 1, dados mockados) — backend em Python/FastAPI. Como rodar e
+> detalhes da implementação em [backend.md](backend.md). Docs interativas (Swagger) em
+> `http://localhost:3000/docs` com o servidor no ar.
+
 Base URL (local): `http://localhost:3000`
 Formato: `application/json`
 

@@ -1,0 +1,4 @@
+[tool.pytest.ini_options]
+# Permite "from app...." nos testes ao rodar pytest a partir de api/.
+pythonpath = ["."]
+testpaths = ["tests"]
