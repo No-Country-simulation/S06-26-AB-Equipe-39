@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './OnboardingFlow.css';
+import '../style/OnboardingFlow.css';
 
 export default function OnboardingFlow({ onComplete }) {
   const [step, setStep] = useState(0);
@@ -25,20 +25,6 @@ export default function OnboardingFlow({ onComplete }) {
     }));
   };
 
-  const handleNext = () => {
-    if (step < steps.length - 1) {
-      setStep(step + 1);
-    } else {
-      onComplete(formData);
-    }
-  };
-
-  const handleBack = () => {
-    if (step > 0) {
-      setStep(step - 1);
-    }
-  };
-
   const steps = [
     {
       title: 'Dados pessoais',
@@ -62,13 +48,45 @@ export default function OnboardingFlow({ onComplete }) {
     },
     {
       title: 'Profissional',
-      subtitle: 'Seu nível e área',
+      subtitle: 'Seu nível e área de interesse',
       fields: ['nivel', 'area'],
     },
   ];
 
   const currentStep = steps[step];
   const progress = ((step + 1) / steps.length) * 100;
+
+  // Simple validation check before proceeding
+  const isStepValid = () => {
+    return currentStep.fields.every(field => {
+      const val = formData[field];
+      if (typeof val === 'string') {
+        return val.trim() !== '';
+      }
+      return val !== undefined && val !== null;
+    });
+  };
+
+  const handleNext = (e) => {
+    e.preventDefault();
+    if (!isStepValid()) {
+      alert('Por favor, preencha todos os campos obrigatórios deste passo.');
+      return;
+    }
+    
+    if (step < steps.length - 1) {
+      setStep(step + 1);
+    } else {
+      onComplete(formData);
+    }
+  };
+
+  const handleBack = (e) => {
+    e.preventDefault();
+    if (step > 0) {
+      setStep(step - 1);
+    }
+  };
 
   return (
     <div className="onboarding-wrapper">
@@ -79,7 +97,7 @@ export default function OnboardingFlow({ onComplete }) {
           <div className="progress-bar">
             <div className="progress-fill" style={{ width: `${progress}%` }}></div>
           </div>
-          <span className="progress-text">{step + 1} de {steps.length}</span>
+          <span className="progress-text">Passo {step + 1} de {steps.length}</span>
         </div>
 
         {/* Conteúdo */}
@@ -89,7 +107,7 @@ export default function OnboardingFlow({ onComplete }) {
             <p>{currentStep.subtitle}</p>
           </div>
 
-          <form className="step-form">
+          <form className="step-form" onSubmit={handleNext}>
             {currentStep.fields.map(fieldName => (
               <div key={fieldName} className="form-group">
                 <label htmlFor={fieldName}>
@@ -117,10 +135,23 @@ export default function OnboardingFlow({ onComplete }) {
                     required
                   >
                     <option value="">Selecione...</option>
-                    <option value="junior">Junior</option>
+                    <option value="junior">Júnior</option>
                     <option value="pleno">Pleno</option>
-                    <option value="senior">Senior</option>
+                    <option value="senior">Sênior</option>
                     <option value="estudante">Estudante</option>
+                  </select>
+                ) : fieldName === 'area' ? (
+                  <select
+                    id={fieldName}
+                    name={fieldName}
+                    value={formData[fieldName]}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Selecione...</option>
+                    <option value="frontend">Desenvolvimento Frontend</option>
+                    <option value="backend">Desenvolvimento Backend</option>
+                    <option value="ux/ui design">UX/UI Design</option>
                   </select>
                 ) : (
                   <input
@@ -135,24 +166,25 @@ export default function OnboardingFlow({ onComplete }) {
                 )}
               </div>
             ))}
-          </form>
 
-          {/* Botões */}
-          <div className="form-actions">
-            <button
-              className="btn btn-secondary"
-              onClick={handleBack}
-              disabled={step === 0}
-            >
-              Voltar
-            </button>
-            <button
-              className="btn btn-primary"
-              onClick={handleNext}
-            >
-              {step === steps.length - 1 ? 'Finalizar' : 'Próximo'}
-            </button>
-          </div>
+            {/* Botões */}
+            <div className="form-actions">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={handleBack}
+                disabled={step === 0}
+              >
+                Voltar
+              </button>
+              <button
+                type="submit"
+                className="btn btn-primary"
+              >
+                {step === steps.length - 1 ? 'Finalizar' : 'Próximo'}
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -162,14 +194,14 @@ export default function OnboardingFlow({ onComplete }) {
 function getFieldLabel(field) {
   const labels = {
     nome: 'Nome completo',
-    email: 'Email',
+    email: 'E-mail',
     dataNascimento: 'Data de nascimento',
     sexo: 'Sexo',
     pais: 'País',
     estado: 'Estado',
     cidade: 'Cidade',
     whatsapp: 'WhatsApp',
-    formacao: 'Nível de formação',
+    formacao: 'Nível de formação acadêmica',
     nivel: 'Nível profissional',
     area: 'Área de tecnologia',
   };
@@ -191,9 +223,8 @@ function getFieldPlaceholder(field) {
     pais: 'ex: Brasil',
     estado: 'ex: São Paulo',
     cidade: 'ex: São Paulo',
-    whatsapp: '(11) 99999-9999',
-    formacao: 'ex: Ensino Superior',
-    area: 'ex: Frontend, Backend, UX',
+    whatsapp: 'ex: +55 (11) 99999-9999',
+    formacao: 'ex: Ensino Superior em TI',
   };
   return placeholders[field] || '';
 }

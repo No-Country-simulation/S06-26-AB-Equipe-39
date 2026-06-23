@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Header.css';
+import '../style/Header.css';
 
 export default function Header({ user, onLogout }) {
   const navigate = useNavigate();
@@ -11,8 +11,10 @@ export default function Header({ user, onLogout }) {
   };
 
   const getInitials = (name) => {
+    if (!name) return 'US';
     return name
       .split(' ')
+      .filter(word => word.length > 0)
       .map(word => word[0])
       .join('')
       .toUpperCase()
@@ -32,7 +34,7 @@ export default function Header({ user, onLogout }) {
         {user && (
           <div className="header-user">
             <span className="user-name">{user.nome}</span>
-            <div className="user-avatar">
+            <div className="user-avatar" title={`${user.nome} (${user.area})`}>
               {getInitials(user.nome)}
             </div>
             <button 
