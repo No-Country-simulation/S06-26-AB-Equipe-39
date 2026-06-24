@@ -1,5 +1,5 @@
-from Agent.agent_router import route_request
-from Agent.utils.prompt_loader import load_prompt
+from agent.agent_router import route_request
+from agent.utils.prompt_loader import load_prompt
 
 
 class AIService:
@@ -8,8 +8,7 @@ class AIService:
         self.client = gemini_client
 
     def build_prompt(self, prompt_type: str, user_input: dict):
-        base_prompt = load_prompt(f"{prompt_type}_prompt.md")
-
+        base_prompt = load_prompt(f"{prompt_type}.md")
         return f"""
 {base_prompt}
 

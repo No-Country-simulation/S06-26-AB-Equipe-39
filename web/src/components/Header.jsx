@@ -28,7 +28,7 @@ export default function Header({ user, onLogout }) {
           className="logo"
           onClick={() => navigate('/dashboard')}
         >
-          BiT
+          BiT App - Orientação e Inclusão
         </button>
 
         {user && (
