@@ -1,12 +1,36 @@
+"""
+Funções utilitárias para carregamento dos prompts.
+"""
+
 from pathlib import Path
 
-def load_prompt(file_name: str) -> str:
+from agent.config import PROMPTS_DIR
+
+
+class PromptLoader:
     """
-    Carrega prompts .md da pasta prompts
+    Responsável por carregar prompts da pasta prompts/.
     """
 
-    base_path = Path(__file__).resolve().parent.parent / "prompts"
-    file_path = base_path / file_name
+    @staticmethod
+    def load(prompt_name: str) -> str:
+        """
+        Carrega um prompt markdown.
 
-    with open(file_path, "r", encoding="utf-8") as file:
-        return file.read()
+        Exemplo:
+
+        PromptLoader.load("career_guidance")
+        """
+
+        filename = f"{prompt_name}.md"
+
+        path = PROMPTS_DIR / filename
+
+        if not path.exists():
+            raise FileNotFoundError(
+                f"Prompt '{filename}' não encontrado em {PROMPTS_DIR}"
+            )
+
+        return path.read_text(
+            encoding="utf-8"
+        )
